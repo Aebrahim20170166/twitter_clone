@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Idea;
 class IdeaController extends Controller
 {
+    public function show(Idea $idea)
+    {
+        return view('Ideas.show', compact('idea'));
+    }
     public function index()
     {
         return view('dashboard');
@@ -26,9 +30,9 @@ class IdeaController extends Controller
         return redirect()->route('dashboard')->with('success', 'Idea Created Successfully');
     }
 
-    public function destroy($id)
+    public function destroy(Idea $idea)
     {
-        Idea::where('id', $id)->firstOrFail()->delete();
+        $idea->delete();
 
         return redirect()->route('dashboard')->with('success', 'Item Deleted Successfully');
     }
