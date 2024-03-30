@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index() {
-        // $idea = new Idea([
-        //     'content' => 'Hello Everyone'
-        // ]);
 
-        // $idea->save();
+        $ideas = Idea::orderBy('created_at', 'DESC');
 
-        //return view('dashboard', ['ideas' => Idea::orderBy('created_at', 'DESC')->get()]);
-        return view('dashboard', ['ideas' => Idea::orderBy('created_at', 'DESC')->paginate(4)]);
+        if(request()->has('search'))
+        {
+            $ideas = $ideas->where('content', 'LIKE', '%'. request('search'). '%');
+        }
+        return view('dashboard', ['ideas' => $ideas->paginate(4)]);
     }
 }

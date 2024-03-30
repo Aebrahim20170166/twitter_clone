@@ -10,20 +10,27 @@ class IdeaController extends Controller
     {
         return view('Ideas.show', compact('idea'));
     }
+
+    public function edit(Idea $idea)
+    {
+        $editing = true;
+
+        return view('Ideas.show', compact('idea', 'editing'));
+    }
     public function index()
     {
         return view('dashboard');
     }
 
-    public function create(Request $request)
+    public function create()
     {
-        $request->validate([
-            'idea' =>'required|min:5|max:255',
+        request()->validate([
+            'content' =>'required|min:5|max:255',
         ]);
 
         $idea = Idea::create(
             [
-                'content' => $request->get('idea'),
+                'content' => request()->get('content'),
             ]
         );
 
@@ -35,5 +42,18 @@ class IdeaController extends Controller
         $idea->delete();
 
         return redirect()->route('dashboard')->with('success', 'Item Deleted Successfully');
+    }
+
+    public function update(Idea $idea)
+    {
+        request()->validate([
+            'content' =>'required|min:5|max:255',
+        ]);
+
+        $idea->content = request()->get('content', '');
+
+        $idea->save();
+
+        return redirect()->route('ideas.show', $idea->id)->with('success', 'Idea Updated Successfully!!');
     }
 }
