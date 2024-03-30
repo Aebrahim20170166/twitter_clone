@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IdeaController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,11 @@ Route::post('/ideas', [IdeaController::class, 'create'])->name('ideas.create');
 
 Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('ideas.destroy');
 
-Route::get('/terms', function(){
-    return view('terms');
-});
+//comments
+Route::post('/ideas/{idea}/commnets', [CommentController::class, 'store'])->name('ideas.comments.store');
+
+Route::get('/comments/{comment}', [CommentController::class,'show'])->name('comments.show');
+
+Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+
+Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
