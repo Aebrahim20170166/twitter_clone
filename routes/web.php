@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\IdeaController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,3 +37,8 @@ Route::get('/comments/{comment}', [CommentController::class,'show'])->name('comm
 Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
 
 Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+
+//authentication
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+
+Route::post('/register', [AuthController::class, 'store'])->name('store');
