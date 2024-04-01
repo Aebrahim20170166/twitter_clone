@@ -1,4 +1,4 @@
-<h4> Share yours ideas </h4>
+@auth
 <div class="row">
     <form action="{{ route('ideas.create') }}" method="POST">
         @csrf
@@ -13,3 +13,7 @@
         </div>
     </form>
 </div>
+@endauth
+@guest
+<h4> Login To Share Yours Ideas </h4>
+@endguest
