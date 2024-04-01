@@ -10,6 +10,7 @@ class IdeaController extends Controller
     {
         return view('Ideas.show', compact('idea'));
     }
+
     public function edit(Idea $idea)
     {
         if(auth()->id() !== $idea->user_id)
@@ -21,10 +22,12 @@ class IdeaController extends Controller
 
         return view('Ideas.show', compact('idea', 'editing'));
     }
-    public function index()
-    {
-        return view('dashboard');
-    }
+
+    // public function index()
+    // {
+    //     $ideas = Idea::all();
+    //     return view('dashboard', compact('ideas'));
+    // }
 
     public function store()
     {

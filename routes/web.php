@@ -23,7 +23,7 @@ Route::group(['prefix' => 'ideas', 'as' => 'ideas.', 'middleware' => ['auth']], 
 
     // Route::get('/{idea}', [IdeaController::class, 'show'])->name('show');
 
-    // Route::post('/', [IdeaController::class, 'create'])->name('create');
+    // Route::post('/', [IdeaController::class, 'store'])->name('create');
 
     Route::group(['middleware' => ['auth']], function() {
 
@@ -33,11 +33,15 @@ Route::group(['prefix' => 'ideas', 'as' => 'ideas.', 'middleware' => ['auth']], 
 
         // Route::delete('/{idea}', [IdeaController::class, 'destroy'])->name('destroy');
 
-        Route::post('/{idea}/commnets', [CommentController::class, 'store'])->name('comments.store');
+        //Route::post('/{idea}/commnets', [CommentController::class, 'store'])->name('comments.store');
     });
 });
 
-Route::resource('ideas', IdeaController::class);
+Route::resource('ideas', IdeaController::class)->except(['index', 'create', 'show'])->middleware('auth');
+
+Route::resource('ideas', IdeaController::class)->only('show');
+
+Route::resource('ideas.comments', CommentController::class)->only('store')->middleware('auth');
  //comments
 Route::get('/comments/{comment}', [CommentController::class,'show'])->name('comments.show');
 
