@@ -26,7 +26,7 @@ class IdeaController extends Controller
         return view('dashboard');
     }
 
-    public function create()
+    public function store()
     {
         $validated = request()->validate([
             'content' =>'required|min:5|max:255',
@@ -55,7 +55,7 @@ class IdeaController extends Controller
         {
             abort(404);
         }
-        
+
         $validated = request()->validate([
             'content' =>'required|min:5|max:255',
         ]);

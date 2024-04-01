@@ -19,19 +19,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-Route::get('/ideas/{idea}', [IdeaController::class, 'show'])->name('ideas.show');
+Route::group(['prefix' => 'ideas', 'as' => 'ideas.', 'middleware' => ['auth']], function(){
 
-Route::get('/ideas/{idea}/edit', [IdeaController::class, 'edit'])->name('ideas.edit')->middleware('auth');
+    // Route::get('/{idea}', [IdeaController::class, 'show'])->name('show');
 
-Route::put('/ideas/{idea}', [IdeaController::class, 'update'])->name('ideas.update')->middleware('auth');
+    // Route::post('/', [IdeaController::class, 'create'])->name('create');
 
-Route::post('/ideas', [IdeaController::class, 'create'])->name('ideas.create');
+    Route::group(['middleware' => ['auth']], function() {
 
-Route::delete('/ideas/{idea}', [IdeaController::class, 'destroy'])->name('ideas.destroy')->middleware('auth');
+        // Route::get('/{idea}/edit', [IdeaController::class, 'edit'])->name('edit');
 
-//comments
-Route::post('/ideas/{idea}/commnets', [CommentController::class, 'store'])->name('ideas.comments.store');
+        // Route::put('/{idea}', [IdeaController::class, 'update'])->name('update');
 
+        // Route::delete('/{idea}', [IdeaController::class, 'destroy'])->name('destroy');
+
+        Route::post('/{idea}/commnets', [CommentController::class, 'store'])->name('comments.store');
+    });
+});
+
+Route::resource('ideas', IdeaController::class);
+ //comments
 Route::get('/comments/{comment}', [CommentController::class,'show'])->name('comments.show');
 
 Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
@@ -39,12 +46,3 @@ Route::get('/comments/{comment}/edit', [CommentController::class, 'edit'])->name
 Route::put('/comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
 
 //authentication
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-
-Route::post('/register', [AuthController::class, 'store'])->name('store');
-
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-
-Route::post('/login', [AuthController::class, 'authenticate'])->name('login');
-
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
