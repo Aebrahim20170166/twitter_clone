@@ -55,6 +55,23 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class)->latest();
     }
 
+    public function followings()
+    {
+        //return $this->hasMany(User::class, 'user_id');
+        return $this->belongsToMany(User::class, 'follower_user', 'follower_id', 'user_id');
+    }
+
+    public function followers()
+    {
+        //return $this->hasMany(User::class, 'follower_id');
+        return $this->belongsToMany(User::class, 'follower_user', 'user_id', 'follower_id');
+    }
+
+    public function follows(User $user)
+    {
+        return $this->followings()->where('user_id', $user->id)->exists();
+    }
+
     public function getImageURL()
     {
         if ($this->image) {

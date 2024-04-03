@@ -56,6 +56,8 @@ class UserController extends Controller
      */
     public function update(User $user)
     {
+
+        //dd(request());
         $validated = request()->validate([
             'name' => 'required|min:3|max:40',
             'bio' => 'nullable|min:3|max:255',
@@ -67,7 +69,7 @@ class UserController extends Controller
             $imagePath = request()->file('image')->store('profile', 'public');
             $validated['image'] = $imagePath;
 
-            Storage::disk('public')->delete($user->image);
+            Storage::disk('public')->delete($user->image ?? '');
         }
         //update user data
 
