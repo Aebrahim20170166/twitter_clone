@@ -72,6 +72,18 @@ class User extends Authenticatable
         return $this->followings()->where('user_id', $user->id)->exists();
     }
 
+    public function likesIdea(Idea $idea)
+    {
+        return $this->likes()->where('idea_id', $idea->id)->exists();
+    }
+    //here we get all ideas that the user liked it.
+    //the correct convention table name is idea_user
+    //because the table name is not idea_user we should put the table name inside the relationship
+    public function likes()
+    {
+        return $this->belongsToMany(Idea::class, 'idea_like')->withTimestamps();
+    }
+
     public function getImageURL()
     {
         if ($this->image) {
